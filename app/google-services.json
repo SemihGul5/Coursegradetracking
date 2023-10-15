@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "774886144242",
-    "project_id": "instagramclone-7c0c7",
-    "storage_bucket": "instagramclone-7c0c7.appspot.com"
+    "project_number": "534194101260",
+    "project_id": "course-grade-tracking",
+    "storage_bucket": "course-grade-tracking.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:774886144242:android:f940645b83d89b7437386b",
+        "mobilesdk_app_id": "1:534194101260:android:5fc53882fc2297b3632229",
         "android_client_info": {
-          "package_name": "com.example.instagramclone"
+          "package_name": "com.example.coursegradetracking"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1H12kfrnN-otm5FF21SwLfGaAOokxtis"
+          "current_key": "AIzaSyCZT8_UGHSOokt_XfujRv7QF3L24UepY10"
         }
       ],
       "services": {

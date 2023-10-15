@@ -3,6 +3,8 @@
     <style name="Base.Theme.CourseGradeTracking" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 
     <style name="Theme.CourseGradeTracking" parent="Base.Theme.CourseGradeTracking" />
