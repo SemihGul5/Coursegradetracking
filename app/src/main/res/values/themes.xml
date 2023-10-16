@@ -7,5 +7,11 @@
         <item name="titleTextColor">@color/white</item>
     </style>
 
+    <style name="Base.Theme.MainActivity" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="colorPrimary">@color/kahverengi</item>
+        <item name="titleTextColor">@color/white</item>
+
+    </style>
+
     <style name="Theme.CourseGradeTracking" parent="Base.Theme.CourseGradeTracking" />
 </resources>
