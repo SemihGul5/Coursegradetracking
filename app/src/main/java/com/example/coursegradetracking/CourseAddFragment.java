@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class CourseAddFragment extends Fragment {
     private FragmentCourseAddBinding binding;
     ArrayList<String> courseKredits;
+    ArrayList<String> notes;
 
 
     public CourseAddFragment() {
@@ -51,6 +52,20 @@ public class CourseAddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        adaptSpinner1();
+        adaptSpinnerNotes();
+
+    }
+
+    private void adaptSpinnerNotes() {
+        notes=new ArrayList<>();
+        notes.add("AA");notes.add("BA");notes.add("BB");notes.add("CB");notes.add("CC");notes.add("DC");notes.add("DD");notes.add("FF");
+        ArrayAdapter<String> notesAdapter=new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,notes);
+        binding.spinnerNotes.setAdapter(notesAdapter);
+    }
+
+    private void adaptSpinner1() {
         courseKredits=new ArrayList<>();
         for (int i=1;i<=10;i++){
             courseKredits.add(String.valueOf(i)+" Kredi");
