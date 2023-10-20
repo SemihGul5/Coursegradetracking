@@ -108,7 +108,7 @@ public class CourseAddFragment extends Fragment {
                     String email=user.getEmail();
                     HashMap<String,Object> data=new HashMap<>();
                     data.put("Email",email);
-                    data.put("CouseName",courseName);
+                    data.put("CourseName",courseName);
                     data.put("Credits",courseCredits);
                     data.put("Note",courseNote);
 

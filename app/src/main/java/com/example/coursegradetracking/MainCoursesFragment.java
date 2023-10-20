@@ -11,14 +11,25 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.coursegradetracking.databinding.FragmentLogInBinding;
 import com.example.coursegradetracking.databinding.FragmentMainCoursesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Map;
 
 
 public class MainCoursesFragment extends Fragment {
     private FragmentMainCoursesBinding binding;
+    FirebaseAuth auth;
+    FirebaseFirestore firestore;
 
 
     public MainCoursesFragment() {
@@ -33,6 +44,9 @@ public class MainCoursesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth=FirebaseAuth.getInstance();
+        firestore=FirebaseFirestore.getInstance();
+
 
     }
 
@@ -49,6 +63,29 @@ public class MainCoursesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fabClicked(view);
+
+        getData();
+    }
+
+    private void getData() {
+
+        firestore.collection("Data").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    Toast.makeText(getContext(),error.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                }
+                if (value!=null){
+                    for (DocumentSnapshot documentSnapshot: value.getDocuments()){
+                        Map<String,Object> data= documentSnapshot.getData();
+                        String eMail= (String) data.get("Email");
+                        String courseName= (String) data.get("CourseName");
+                        String credits= (String) data.get("Credits");
+                        String note= (String) data.get("Note");
+                    }
+                }
+            }
+        });
     }
 
     public void fabClicked(View view) {
