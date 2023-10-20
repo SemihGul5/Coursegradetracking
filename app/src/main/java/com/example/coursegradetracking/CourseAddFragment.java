@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class CourseAddFragment extends Fragment {
     private FragmentCourseAddBinding binding;
-    private ArrayAdapter<String> adapter;
     ArrayList<String> courseKredits;
 
 
@@ -36,12 +35,7 @@ public class CourseAddFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        courseKredits=new ArrayList<>();
-        for (int i=1;i<=10;i++){
-            courseKredits.add(String.valueOf(i)+" Kredi");
-        }
-        adapter=new ArrayAdapter<>(getContext(),R.layout.fragment_course_add,courseKredits);
-        binding.listView1.setAdapter(adapter);
+
 
 
     }
@@ -57,5 +51,11 @@ public class CourseAddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        courseKredits=new ArrayList<>();
+        for (int i=1;i<=10;i++){
+            courseKredits.add(String.valueOf(i)+" Kredi");
+        }
+        ArrayAdapter<String> adapter=new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,courseKredits);
+        binding.spinner1.setAdapter(adapter);
     }
 }

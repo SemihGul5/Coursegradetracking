@@ -31,12 +31,16 @@
              />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="100dp"
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:dropDownHeight="100dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout1" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout1"
+        android:spinnerMode="dropdown"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
