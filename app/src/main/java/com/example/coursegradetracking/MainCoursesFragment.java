@@ -1,5 +1,6 @@
 package com.example.coursegradetracking;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,12 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.coursegradetracking.Adapter.CourseAdapter;
+import com.example.coursegradetracking.Model.Course;
 import com.example.coursegradetracking.databinding.FragmentLogInBinding;
 import com.example.coursegradetracking.databinding.FragmentMainCoursesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -30,6 +36,8 @@ public class MainCoursesFragment extends Fragment {
     private FragmentMainCoursesBinding binding;
     FirebaseAuth auth;
     FirebaseFirestore firestore;
+    ArrayList<Course> courseArrayList;
+    CourseAdapter adapter;
 
 
     public MainCoursesFragment() {
@@ -46,6 +54,10 @@ public class MainCoursesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
+        courseArrayList=new ArrayList<>();
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
+        adapter=new CourseAdapter(courseArrayList,getContext());
+        binding.recyclerView.setAdapter(adapter);
 
 
     }
@@ -69,7 +81,10 @@ public class MainCoursesFragment extends Fragment {
 
     private void getData() {
 
-        firestore.collection("Data").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestore.collection("Data")
+                .whereEqualTo("Email",auth.getCurrentUser().getEmail())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error!=null){
@@ -82,7 +97,13 @@ public class MainCoursesFragment extends Fragment {
                         String courseName= (String) data.get("CourseName");
                         String credits= (String) data.get("Credits");
                         String note= (String) data.get("Note");
+
+                        //diziye, kaydedilen veriyi işliyoruz. recyclerda göstermek için
+
+                        Course course= new Course(eMail,courseName,credits,note);
+                        courseArrayList.add(course);
                     }
+                    adapter.notifyDataSetChanged();
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.coursegradetracking.Model.Course;
 import com.example.coursegradetracking.databinding.FragmentCourseAddBinding;
 import com.example.coursegradetracking.databinding.FragmentLogInBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,6 +35,7 @@ public class CourseAddFragment extends Fragment {
     ArrayList<String> notes;
     FirebaseAuth auth;
     FirebaseFirestore firestore;
+    ArrayList<Course> courseArrayList;
 
 
     public CourseAddFragment() {
@@ -53,7 +55,7 @@ public class CourseAddFragment extends Fragment {
 
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
-
+        courseArrayList=new ArrayList<>();
     }
 
     @Override
@@ -121,6 +123,8 @@ public class CourseAddFragment extends Fragment {
                             Navigation.findNavController(view).navigate(directions);
 
 
+
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -128,9 +132,6 @@ public class CourseAddFragment extends Fragment {
                             Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
-
-
                 }
-
     }
 }
