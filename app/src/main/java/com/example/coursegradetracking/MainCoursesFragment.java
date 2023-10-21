@@ -55,9 +55,7 @@ public class MainCoursesFragment extends Fragment {
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
         courseArrayList=new ArrayList<>();
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
-        adapter=new CourseAdapter(courseArrayList,getContext());
-        binding.recyclerView.setAdapter(adapter);
+
 
 
     }
@@ -69,19 +67,23 @@ public class MainCoursesFragment extends Fragment {
         View view = binding.getRoot();
         return view;
 
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fabClicked(view);
-
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        adapter = new CourseAdapter(courseArrayList, getContext());
         getData();
+        binding.recyclerView.setAdapter(adapter);
+
     }
 
     private void getData() {
 
-        firestore.collection("Data")
+        firestore.collection("Data2")
                 .whereEqualTo("Email",auth.getCurrentUser().getEmail())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")

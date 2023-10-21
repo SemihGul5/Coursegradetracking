@@ -114,7 +114,7 @@ public class CourseAddFragment extends Fragment {
                     data.put("Credits",courseCredits);
                     data.put("Note",courseNote);
 
-                    firestore.collection("Data").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    firestore.collection("Data2").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             //kayıt başarılı!

@@ -32,7 +32,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     @Override
     public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
         Course course=courseArrayList.get(position);
-        holder.binding.recyclerCourseNameText.setText(course.getCourseName());
+        String name=course.getCourseName();
+        holder.binding.recyclerCourseNameText.setText(name);
         String cCredits=course.getCourseCredits();
         String notes=course.getCourseNotes();
         String x=cCredits+" - Ders Notu: "+notes;
