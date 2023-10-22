@@ -72,6 +72,7 @@ public class LogInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         goToSignIn(view);
         userLogin(view);
+        forgotPasswordClicked(view);
     }
     private void userLogin(View view) {
         binding.girisYapButton.setOnClickListener(new View.OnClickListener() {
@@ -117,5 +118,33 @@ public class LogInFragment extends Fragment {
                 Navigation.findNavController(v).navigate(directions);
             }
         });
+    }
+    private void forgotPasswordClicked(View view){
+        binding.textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email=binding.userEmailText.getText().toString();
+                if (email.equals("")){
+                    Toast.makeText(getContext(),"Email alanı dolu olmalıdır!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    auth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getContext(),"Şifre sıfırlama e-mail'i gönderildi",Toast.LENGTH_SHORT).show();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+            }
+        });
+
+
     }
 }
