@@ -38,6 +38,7 @@ public class MainCoursesFragment extends Fragment {
     FirebaseFirestore firestore;
     ArrayList<Course> courseArrayList;
     CourseAdapter adapter;
+    double x=0,y=0;
 
 
     public MainCoursesFragment() {
@@ -79,7 +80,83 @@ public class MainCoursesFragment extends Fragment {
         getData();
         binding.recyclerView.setAdapter(adapter);
 
+
     }
+
+    Double calculateNote(String credits,String note) {
+        double cr=translateCredi(credits);
+        double nt= translateNote(note);
+        return cr*nt;
+
+    }
+    Double translateCredi(String credi){
+        double nt=0.0;
+        switch (credi) {
+            case "1 Kredi":
+                nt = 1.0;
+                break;
+            case "2 Kredi":
+                nt = 2.0;
+                break;
+            case "3 Kredi":
+                nt = 3.0;
+                break;
+            case "4 Kredi":
+                nt = 4.0;
+                break;
+            case "5 Kredi":
+                nt = 5.0;
+                break;
+            case "6 Kredi":
+                nt =6.0;
+                break;
+            case "7 Kredi":
+                nt = 7.0;
+                break;
+            case "8 Kredi":
+                nt = 8.0;
+                break;
+            case "9 Kredi":
+                nt = 9.0;
+                break;
+            case "10 Kredi":
+                nt = 10.0;
+                break;
+        }
+        return nt;
+    }
+
+    Double translateNote(String note) {
+        double nt=0.0;
+        switch (note) {
+            case "AA":
+                nt = 4.0;
+                break;
+            case "BA":
+                nt = 3.5;
+                break;
+            case "BB":
+                nt = 3.0;
+                break;
+            case "CB":
+                nt = 2.5;
+                break;
+            case "CC":
+                nt = 2.0;
+                break;
+            case "DC":
+                nt = 1.5;
+                break;
+            case "DD":
+                nt = 1.0;
+                break;
+            case "FF":
+                nt = 0.0;
+                break;
+        }
+        return nt;
+    }
+
 
     private void getData() {
         courseArrayList.clear();
@@ -101,11 +178,16 @@ public class MainCoursesFragment extends Fragment {
                         String credits= (String) data.get("Credits");
                         String note= (String) data.get("Note");
 
-                        //diziye, kaydedilen veriyi işliyoruz. recyclerda göstermek için
+                        //diziye kaydedilen veriyi işliyoruz. recyclerda göstermek için
+                        x+=calculateNote(credits,note);
+                        y+=translateCredi(credits);
 
                         Course course= new Course(eMail,courseName,credits,note);
                         courseArrayList.add(course);
                     }
+                    double res=x/y;
+                    String formattedRes = String.format("GENEL ORTALAMA: %.2f", res); // .2f ile 2 ondalık basamak kullanılır
+                    binding.textView5.setText(formattedRes);
                     adapter.notifyDataSetChanged();
                 }
             }
