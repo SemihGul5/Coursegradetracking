@@ -17,17 +17,23 @@ import android.widget.Toast;
 
 import com.example.coursegradetracking.databinding.FragmentLogInBinding;
 import com.example.coursegradetracking.databinding.FragmentSignInBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 
 public class LogInFragment extends Fragment {
     private FragmentLogInBinding binding;
     private FirebaseAuth auth;
+    String email;
+    String password;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -45,7 +51,7 @@ public class LogInFragment extends Fragment {
         auth=FirebaseAuth.getInstance();
 
         FirebaseUser user=auth.getCurrentUser();
-        if (user!=null){
+        if (user!=null&&user.isEmailVerified()){
             Intent intent= new Intent(getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -67,13 +73,14 @@ public class LogInFragment extends Fragment {
         goToSignIn(view);
         userLogin(view);
     }
-
     private void userLogin(View view) {
         binding.girisYapButton.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
-                String email=binding.userEmailText.getText().toString();
-                String password=binding.userPasswordText.getText().toString();
+                 email=binding.userEmailText.getText().toString();
+                 password=binding.userPasswordText.getText().toString();
                 if (email.equals("")||password.equals("")){
                     Toast.makeText(getContext(),"Email ve şifreyi girin.",Toast.LENGTH_SHORT).show();
                 }
@@ -81,23 +88,24 @@ public class LogInFragment extends Fragment {
                     auth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Intent intent= new Intent(getContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
+                            if (auth.getCurrentUser().isEmailVerified()){
+                                Intent intent= new Intent(getContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getContext(),"E-mail adresinizi doğrulayın.",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 }
-
             }
         });
-
     }
 
     private void goToSignIn(View view) {

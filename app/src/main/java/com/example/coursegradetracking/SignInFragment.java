@@ -66,7 +66,7 @@ public class SignInFragment extends Fragment {
     }
 
     private void userSignIn(View view) {
-        Button button=binding.kayitolKayitOlButton;
+        Button button=binding.kayitolkayitOlButton;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,20 +80,17 @@ public class SignInFragment extends Fragment {
                     auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-
+                            //kullanıcı oluşturuldu
+                            //email ile doğrulama yapılacak, doğrulanmazsa ana ekrandan da giriş yapılamayacak ve doğrulama ekranına gidilecek
                             FirebaseUser user=auth.getCurrentUser();
-                            sendEmail(user,view);
-
-
-                            /*Intent intent= new Intent(getContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);*/
+                            if (user!=null){
+                                sendEmail(user,view);
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 }
@@ -104,18 +101,10 @@ public class SignInFragment extends Fragment {
         user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-
-                //girilen değerleri diğer fragment'a aktarımı
-                Bundle bundle=new Bundle();
-                bundle.putString("name",name);
-                bundle.putString("email",email);
-                bundle.putString("password",password);
-                VerificationFragment verificationFragment= new VerificationFragment();
-                verificationFragment.setArguments(bundle);
-
-                NavDirections directions= SignInFragmentDirections.actionSignInFragmentToVerificationFragment();
+                //doğrulama işlemleri için diğer fragmenta gidiliyor
+                NavDirections directions= SignInFragmentDirections.actionSignInFragmentToLogInFragment();
                 Navigation.findNavController(view).navigate(directions);
-                Toast.makeText(getContext(),"Email gönderildi, doğrulama kodunu girin.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Email gönderildi, hesabınızı doğrulayın.",Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -127,7 +116,7 @@ public class SignInFragment extends Fragment {
 
     private void goToLogIn(View view) {
 
-        Button button=view.findViewById(R.id.kayitol_GirisYapButton);
+        Button button=view.findViewById(R.id.kayitolGirisYapButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
