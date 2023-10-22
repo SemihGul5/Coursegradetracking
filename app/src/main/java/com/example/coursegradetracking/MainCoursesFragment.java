@@ -82,6 +82,7 @@ public class MainCoursesFragment extends Fragment {
     }
 
     private void getData() {
+        courseArrayList.clear();
 
         firestore.collection("Data2")
                 .whereEqualTo("Email",auth.getCurrentUser().getEmail())

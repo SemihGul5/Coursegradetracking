@@ -20,12 +20,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class SignInFragment extends Fragment {
     private FragmentSignInBinding binding;
     private FirebaseAuth auth;
-
+    String name;
+    String email;
+    String password;
 
 
     public SignInFragment() {
@@ -33,7 +36,7 @@ public class SignInFragment extends Fragment {
     }
 
 
-    public static SignInFragment newInstance(String param1, String param2) {
+    public static SignInFragment newInstance() {
         SignInFragment fragment = new SignInFragment();
         return fragment;
     }
@@ -67,9 +70,9 @@ public class SignInFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name=binding.signInUserNameText.getText().toString();
-                String email=binding.singInUserEmailText.getText().toString();
-                String password=binding.singInPasswordText.getText().toString();
+                name=binding.signInUserNameText.getText().toString();
+                email=binding.singInUserEmailText.getText().toString();
+                password=binding.singInPasswordText.getText().toString();
                 if (name.equals("")||email.equals("")||password.equals("")){
                     Toast.makeText(getContext(),"Tüm alanları doldurun.",Toast.LENGTH_SHORT).show();
                 }
@@ -77,9 +80,14 @@ public class SignInFragment extends Fragment {
                     auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            Intent intent= new Intent(getContext(), MainActivity.class);
+
+                            FirebaseUser user=auth.getCurrentUser();
+                            sendEmail(user,view);
+
+
+                            /*Intent intent= new Intent(getContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -92,6 +100,30 @@ public class SignInFragment extends Fragment {
             }
         });
     }
+    private void sendEmail(FirebaseUser user,View view){
+        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+                //girilen değerleri diğer fragment'a aktarımı
+                Bundle bundle=new Bundle();
+                bundle.putString("name",name);
+                bundle.putString("email",email);
+                bundle.putString("password",password);
+                VerificationFragment verificationFragment= new VerificationFragment();
+                verificationFragment.setArguments(bundle);
+
+                NavDirections directions= SignInFragmentDirections.actionSignInFragmentToVerificationFragment();
+                Navigation.findNavController(view).navigate(directions);
+                Toast.makeText(getContext(),"Email gönderildi, doğrulama kodunu girin.",Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void goToLogIn(View view) {
 
@@ -99,8 +131,12 @@ public class SignInFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 NavDirections directions=SignInFragmentDirections.actionSignInFragmentToLogInFragment();
                 Navigation.findNavController(v).navigate(directions);
+
+
             }
         });
 
