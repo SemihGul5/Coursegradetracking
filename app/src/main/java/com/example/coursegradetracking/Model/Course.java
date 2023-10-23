@@ -5,12 +5,25 @@ public class Course {
     private String courseName;
     private String courseCredits;
     private String courseNotes;
+    private String docID;
 
-    public Course(String eMail, String courseName, String courseCredits, String courseNotes) {
+    public Course(String eMail, String courseName, String courseCredits, String courseNotes,String docID) {
         this.eMail = eMail;
         this.courseName = courseName;
         this.courseCredits = courseCredits;
         this.courseNotes = courseNotes;
+        this.docID=docID;
+    }
+    public Course(){
+
+    }
+
+    public String getDocID() {
+        return docID;
+    }
+
+    public void setDocID(String docID) {
+        this.docID = docID;
     }
 
     public String geteMail() {

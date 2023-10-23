@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.coursegradetracking.Adapter.CourseAdapter;
+import com.example.coursegradetracking.Interface.OnCourseDeletedListener;
 import com.example.coursegradetracking.Model.Course;
 import com.example.coursegradetracking.databinding.FragmentLogInBinding;
 import com.example.coursegradetracking.databinding.FragmentMainCoursesBinding;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class MainCoursesFragment extends Fragment {
+public class MainCoursesFragment extends Fragment implements OnCourseDeletedListener {
     private FragmentMainCoursesBinding binding;
     FirebaseAuth auth;
     FirebaseFirestore firestore;
@@ -158,9 +159,10 @@ public class MainCoursesFragment extends Fragment {
     }
 
 
-    private void getData() {
+    public void getData() {
         courseArrayList.clear();
-
+        x=0;y=0;
+        double res=0;
         firestore.collection("Data2")
                 .whereEqualTo("Email",auth.getCurrentUser().getEmail())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -181,8 +183,9 @@ public class MainCoursesFragment extends Fragment {
                         //diziye kaydedilen veriyi işliyoruz. recyclerda göstermek için
                         x+=calculateNote(credits,note);
                         y+=translateCredi(credits);
+                        String docid=documentSnapshot.getId();
 
-                        Course course= new Course(eMail,courseName,credits,note);
+                        Course course= new Course(eMail,courseName,credits,note,docid);
                         courseArrayList.add(course);
                     }
                     double res=x/y;
@@ -203,5 +206,10 @@ public class MainCoursesFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onCourseDeleted() {
+        getData();
     }
 }
