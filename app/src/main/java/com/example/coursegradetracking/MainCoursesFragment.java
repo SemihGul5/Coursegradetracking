@@ -77,7 +77,7 @@ public class MainCoursesFragment extends Fragment implements OnCourseDeletedList
         super.onViewCreated(view, savedInstanceState);
         fabClicked(view);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        adapter = new CourseAdapter(courseArrayList, getContext());
+        adapter = new CourseAdapter(courseArrayList, getContext(), this);
         getData();
         binding.recyclerView.setAdapter(adapter);
 

@@ -25,11 +25,12 @@ import java.util.ArrayList;
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
      ArrayList<Course> courseArrayList;
      Context context;
-     private OnCourseDeletedListener listener;
+     OnCourseDeletedListener listener;
 
-    public CourseAdapter(ArrayList<Course> courseArrayList, Context context) {
+    public CourseAdapter(ArrayList<Course> courseArrayList, Context context,OnCourseDeletedListener listener) {
         this.courseArrayList = courseArrayList;
         this.context = context;
+        this.listener=listener;
     }
 
     @NonNull
@@ -52,9 +53,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         recyclerClicked(holder);
 
 
-    }
-    public void setOnCourseDeleteListener(OnCourseDeletedListener listener){
-        this.listener=listener;
     }
 
     private void recyclerClicked(CourseHolder holder) {
@@ -95,6 +93,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
                 if (listener!=null){
                     listener.onCourseDeleted();
                 }
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -105,6 +104,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         courseArrayList.clear();
 
         notifyDataSetChanged();
+
     }
 
     @Override
