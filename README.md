@@ -1,6 +1,6 @@
 # Coursegradetracking
 
-Kullanılan Teknolojiler:
+Uygulama Hakkında:
 
  - Kullanıcı kaydı, giriş yapma, şifremi unuttum, çıkış yapma ve e-mail doğrulama gibi işlemler için Firebase Console kullanılmıştır.
  - Kullanıcı arayüzü (UI design) tasarımında Material Design özellikle tercih edilmiştir.
