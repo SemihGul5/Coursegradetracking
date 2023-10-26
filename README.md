@@ -2,12 +2,13 @@
 
 Kullanılan Teknolojiler:
 
- - Kullanıcı kaydı, giriş yapma ve şifremi unuttum gibi işlemler için Firebase Console kullanılmıştır.
+ - Kullanıcı kaydı, giriş yapma, şifremi unuttum, çıkış yapma ve e-mail doğrulama gibi işlemler için Firebase Console kullanılmıştır.
  - Kullanıcı arayüzü (UI design) tasarımında Material Design özellikle tercih edilmiştir.
  - Eklenen derslerin görüntülenmesi için RecyclerView kullanılmıştır. Kullanıcılar, bir dersi silmek istediklerinde bir uyarı penceresi (AlertDialog) ile bu işlemi onaylayabilirler.
  - Uygulamanın ilk ekranında iki farklı fragment kullanılmıştır. Bu fragmentlar, "Kayıt Ol" ve "Giriş Yap" işlemlerini gerçekleştirmek için kullanılır. Kullanıcı girişi başarılı olduğunda, ana ekran (MainActivity) içerisinde derslerin eklenmesi ve görüntülenmesi için iki farklı fragment daha kullanılmıştır.
  - findViewById yöntemini her seferinde kullanmaktan kaçınmak için View Binding kullanılmıştır.
- - Kullanıcılar bir ders eklemek istediklerinde kullandıkları buton ise FAB (Floating Action Button) olarak tasarlanmıştır. 
+ - Kullanıcılar bir ders eklemek istediklerinde kullandıkları buton ise FAB (Floating Action Button) olarak tasarlanmıştır.
+ - Kullanıcılar, bir ders eklemek istediklerinde dersin kredi miktarını ve notunu seçerken, bu seçimler için bir Spinner kullanılır.
 
 Bu teknolojilerin kullanımıyla geliştirilen uygulama, kullanıcıların kaydolma, giriş yapma, dersler ekleme ve eklenen derslerle birlikte ortalamalarını görüntüleme işlemlerini kolaylıkla gerçekleştirmelerine olanak tanır. Ayrıca, kullanıcı dostu bir arayüz tasarımı ve Firebase gibi güçlü bir arka planda veri yönetimi sağlanmıştır.
 
